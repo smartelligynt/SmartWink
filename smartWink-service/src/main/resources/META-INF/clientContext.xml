@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+
+	<bean id="oAuthService" class="org.apache.cxf.jaxrs.client.JAXRSClientFactory" factory-method="create">
+		<constructor-arg index="0" name="baseAddress" type="java.lang.String" value="${winkUrl}" />
+		<constructor-arg index="1" name="cls" type="java.lang.Class" value="org.wink.api.OAuthService" />
+		<constructor-arg index="2" name="providers" type="java.util.List">
+			<util:list>
+				<ref bean="jaxbJsonProvider" />
+			</util:list>
+		</constructor-arg>
+		<constructor-arg index="3" name="configLocation" type="java.lang.String" value="classpath:META-INF/clientBus.xml"/>
+	</bean>
+
+
+	<bean id="userDetailService" class="org.apache.cxf.jaxrs.client.JAXRSClientFactory" factory-method="create">
+		<constructor-arg index="0" name="baseAddress" type="java.lang.String" value="${winkUrl}" />
+		<constructor-arg index="1" name="cls" type="java.lang.Class" value="org.wink.api.UserDetailsService" />
+		<constructor-arg index="2" name="providers" type="java.util.List">
+			<util:list>
+				<ref bean="jaxbJsonProvider" />
+			</util:list>
+		</constructor-arg>
+		<constructor-arg index="3" name="configLocation" type="java.lang.String" value="classpath:META-INF/clientBus.xml"/>
+	</bean>
+
+</beans>
