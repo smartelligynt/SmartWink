@@ -3,7 +3,10 @@ package org.sw.service.impl;
 import org.springframework.stereotype.Component;
 import org.sw.api.DummyService;
 
+import io.swagger.annotations.Api;
+
 @Component("dummyService")
+@Api
 public class DummyServiceImpl implements DummyService {
 
 	@Override

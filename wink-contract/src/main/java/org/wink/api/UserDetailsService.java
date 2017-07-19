@@ -7,7 +7,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.wink.contract.model.WinkUser;
+import org.wink.contract.model.winkDevices.WinkDevices;
+import org.wink.contract.model.winkUser.WinkUser;
 
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
@@ -20,5 +21,5 @@ public interface UserDetailsService {
 
 	@Path("/me/wink_devices")
 	@GET
-	WinkUser getWinkDevices(@HeaderParam("Authorization") String authCode, @HeaderParam("client_id") String client_id, @HeaderParam("client_secret") String client_secret);
+	WinkDevices getWinkDevices(@HeaderParam("Authorization") String authCode, @HeaderParam("client_id") String client_id, @HeaderParam("client_secret") String client_secret);
 }

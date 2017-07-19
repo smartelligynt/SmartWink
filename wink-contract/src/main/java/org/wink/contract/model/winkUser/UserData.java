@@ -1,12 +1,15 @@
-package org.wink.contract.model;
+package org.wink.contract.model.winkUser;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.wink.contract.model.LastReading;
+import org.wink.contract.model.Subscription;
+
 @XmlRootElement(name = "userdata", namespace = "org.wink.service.model")
-@XmlAccessorType(XmlAccessType.NONE)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class UserData {
 	@XmlElement(name = "first_name")
 	private String first_name;
@@ -31,8 +34,6 @@ public class UserData {
 	private String user_id;
 
 	private String uuid;
-
-	private String units;
 
 	private String tos_accepted;
 
@@ -114,14 +115,6 @@ public class UserData {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
-	}
-
-	public String getUnits() {
-		return units;
-	}
-
-	public void setUnits(String units) {
-		this.units = units;
 	}
 
 	public String getTos_accepted() {

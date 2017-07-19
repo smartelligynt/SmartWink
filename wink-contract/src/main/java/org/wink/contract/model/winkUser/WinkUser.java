@@ -1,12 +1,14 @@
-package org.wink.contract.model;
+package org.wink.contract.model.winkUser;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.wink.contract.model.Pagination;
+
 @XmlRootElement(name = "winkuser", namespace = "org.wink.service.model")
-@XmlAccessorType(XmlAccessType.NONE)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class WinkUser {
 
 	@XmlElement(name = "errors")
@@ -15,7 +17,7 @@ public class WinkUser {
 	@XmlElement(name = "data")
 	private UserData data;
 
-	private String pagination;
+	private Pagination pagination;
 
 	public String[] getErrors() {
 		return errors;
@@ -33,11 +35,11 @@ public class WinkUser {
 		this.data = data;
 	}
 
-	public String getPagination() {
+	public Pagination getPagination() {
 		return pagination;
 	}
 
-	public void setPagination(String pagination) {
+	public void setPagination(Pagination pagination) {
 		this.pagination = pagination;
 	}
 }

@@ -20,13 +20,15 @@
 			</list>
 		</property>
 	</bean>
-	<!-- <bean id="jaxbJsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider" /> -->
+	<!-- CXF Swagger2Feature --> 
+    <bean id="swagger2Feature" class="org.apache.cxf.jaxrs.swagger.Swagger2Feature"/>
 	<jaxrs:server id="winkServer" address="/wink">
 		<jaxrs:serviceBeans>
 			<ref bean="dummyService" />
 			<ref bean="landingService" />
 			<ref bean="listenService" />
 			<ref bean="orchestrationService"/>
+			<ref bean="userService"/>
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jaxbJsonProvider" />
@@ -38,5 +40,8 @@
 		<jaxrs:outInterceptors>
 			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
 		</jaxrs:outInterceptors>
+		<jaxrs:features>
+			<ref bean="swagger2Feature"/>
+		</jaxrs:features>
 	</jaxrs:server>
 </beans>

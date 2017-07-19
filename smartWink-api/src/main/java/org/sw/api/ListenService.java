@@ -1,8 +1,10 @@
 package org.sw.api;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -15,4 +17,12 @@ public interface ListenService {
 	
 	@POST
 	public void listen(PubNubTopic topic);
+	
+	@Path("/{userId}/start")
+	@GET
+	public void startListen(@PathParam("userId") String userId);
+	
+	@Path("/{userId}/stop")
+	@GET
+	public void stopListen(@PathParam("userId") String userId);
 }

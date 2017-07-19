@@ -14,13 +14,13 @@ import com.pubnub.api.callbacks.SubscribeCallback;
 @Component("PNManager")
 public class PNManager {
 	private Map<String, PubNub> pnMap = new ConcurrentHashMap<String, PubNub>();
-	
+
 	public void add(PubNubTopic pubNubTopic) {
-		if(null == pnMap.get(pubNubTopic.getSubscriberKey())) {
+		if (null == pnMap.get(pubNubTopic.getSubscriberKey())) {
 			PNConfiguration pnConfiguration = new PNConfiguration().setSubscribeKey(pubNubTopic.getSubscriberKey());
 			PubNub pubnub = new PubNub(pnConfiguration);
 			SubscribeCallback cb = null;
-			if(pubNubTopic.getTopicType().equals("LIST")) {
+			if (pubNubTopic.getTopicType().equals("LIST")) {
 				cb = new ListCallBack();
 			} else {
 				cb = new DeviceCallBack();

@@ -14,8 +14,13 @@ import org.sw.api.OrchService;
 import org.sw.api.model.PubNubTopic;
 import org.wink.api.UserDetailsService;
 import org.wink.contract.model.Pubnub;
-import org.wink.contract.model.WinkUser;
+import org.wink.contract.model.winkDevices.WinkDevices;
+import org.wink.contract.model.winkUser.WinkUser;
 
+import io.swagger.annotations.Api;
+
+
+@Api
 @Component("orchestrationService")
 public class OrchServiceImpl implements OrchService {
 
@@ -41,9 +46,9 @@ public class OrchServiceImpl implements OrchService {
 
 	@Override
 	public void orchestrate(String refreshToken) {
-		String accessToken = landingService.getAccess(null, null, refreshToken, null, null);
+		String accessToken = landingService.refreshAccess(refreshToken);
 		WinkUser winkUser =  userDetailService.getUser("Bearer "+accessToken, client_id, client_secret);
-		userDetailService.getWinkDevices("Bearer "+accessToken, client_id, client_secret);
+		WinkDevices winkDevices = userDetailService.getWinkDevices("Bearer "+accessToken, client_id, client_secret);
 		Pubnub subscription = winkUser.getData().getSubscription().getPubnub();
 		PubNubTopic pnTopic = new PubNubTopic();
 		pnTopic.setSubscriberKey(subscription.getSubscribe_key());

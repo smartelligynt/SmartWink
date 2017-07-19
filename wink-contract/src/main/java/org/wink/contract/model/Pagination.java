@@ -4,15 +4,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Subscription {
-	private Pubnub pubnub;
+public class Pagination {
+	private Integer count;
 
-	public Pubnub getPubnub() {
-		return pubnub;
+	public Integer getCount() {
+		return count;
 	}
 
-	public void setPubnub(Pubnub pubnub) {
-		this.pubnub = pubnub;
+	public void setCount(Integer count) {
+		this.count = count;
 	}
-
 }

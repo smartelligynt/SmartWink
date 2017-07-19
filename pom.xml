@@ -35,6 +35,7 @@
 		<slf4j.ver>1.7.22</slf4j.ver>
 		<hibernate.ver>5.2.9.Final</hibernate.ver>
 		<hsqldb.ver>2.3.4</hsqldb.ver>
+		<smartelligyntcli.ver>0.0.1-SNAPSHOT</smartelligyntcli.ver>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -148,6 +149,11 @@
 				<artifactId>wink-contract</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+			    <groupId>com.smartelligynt</groupId>
+				<artifactId>smartelligynt-client</artifactId>
+    			<version>${smartelligyntcli.ver}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -237,5 +243,6 @@
 		<module>smartWink-service</module>
 		<module>smartWink-api</module>
 		<module>wink-contract</module>
+		<!-- <module>smartelligynt-api</module> -->
 	</modules>
 </project>
