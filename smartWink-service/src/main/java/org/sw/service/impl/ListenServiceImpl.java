@@ -3,9 +3,8 @@ package org.sw.service.impl;
 import static org.sw.service.impl.LandingServiceImpl.WINK;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -22,7 +21,6 @@ import org.sw.service.util.PNManager;
 import org.wink.api.UserDetailsService;
 import org.wink.contract.model.winkDevices.Datum;
 import org.wink.contract.model.winkDevices.WinkDevices;
-import org.wink.contract.model.winkUser.UserData;
 import org.wink.contract.model.winkUser.WinkUser;
 
 import com.smartelligynt.client.api.EventReciever;
@@ -68,22 +66,18 @@ public class ListenServiceImpl implements ListenService {
 
 	@Override
 	public void listen(PubNubTopic topic) {
-		// PNConfiguration pnConfiguration = new
-		// PNConfiguration().setSubscribeKey(topic.getSubscriberKey());
-		// PubNub pubnub = new PubNub(pnConfiguration);
-		// pubnub.addListener();
-		// pubnub.subscribe().channels(topic.getTopics()).execute();
-		pnManager.add(topic);
+		pnManager.add(topic, null);
 	}
 
 	@Override
 	public void startListen(String userId) {
-		User user = eventReciever.getUsers(userId);
 		landingService.refreshAccessToken(userId);
+		User user = eventReciever.getUsers(userId);
+		Calendar today = Calendar.getInstance();
 		Map<String, PubNubTopic> subKeyVSdeviceTopics = new HashMap<>();
 		for (Authentication authentication : user.getToken().get(WINK)) {
 			// Object subscriptions
-			WinkDevices winkDevices = userDetailService.getWinkDevices(authentication.getShortLivedToken().getValue(),
+			WinkDevices winkDevices = userDetailService.getWinkDevices("Bearer "+authentication.getShortLivedToken().getValue(),
 					client_id, client_secret);
 			for (Datum datum : winkDevices.getData()) {
 				if (null == subKeyVSdeviceTopics.get(datum.getSubscription().getPubnub().getSubscribe_key())) {
@@ -97,20 +91,22 @@ public class ListenServiceImpl implements ListenService {
 				pnTopic.getTopics().add(datum.getSubscription().getPubnub().getChannel());
 			}
 			for(PubNubTopic pubNubTopic : subKeyVSdeviceTopics.values()) {
-				pnManager.add(pubNubTopic);
+				pnManager.add(pubNubTopic, userId);
 			}
 			// List subscriptions
-			WinkUser winkUser = userDetailService.getUser(authentication.getShortLivedToken().getValue(),
+			WinkUser winkUser = userDetailService.getUser("Bearer "+authentication.getShortLivedToken().getValue(),
 					client_id, client_secret);
 			PubNubTopic userTopic = new PubNubTopic();
 			userTopic.setTopicType("LIST");
 			userTopic.setSubscriberKey(winkUser.getData().getSubscription().getPubnub().getSubscribe_key());
 			userTopic.setTopics(new ArrayList<String>());
 			userTopic.getTopics().add(winkUser.getData().getSubscription().getPubnub().getChannel());
-			pnManager.add(userTopic);
+			pnManager.add(userTopic, userId);
 		}
-
 	}
+	
+	@Override
+	public void startListen(String userId, String winkId) {}
 
 	@Override
 	public void stopListen(String userId) {

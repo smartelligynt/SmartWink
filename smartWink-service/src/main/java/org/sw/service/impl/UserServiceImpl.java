@@ -1,6 +1,7 @@
 package org.sw.service.impl;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import io.swagger.annotations.Api;
 public class UserServiceImpl implements UserService {
 
 	public static final String SMARTELLIGENT = "SMARTELLIGENT";
+	public static final String SPLITTER = ";";
 	@Autowired
 	@Qualifier("smartEventService")
 	EventReciever eventReciever;
@@ -81,8 +83,8 @@ public class UserServiceImpl implements UserService {
 		currentDate.add(Calendar.MINUTE, 60);
 		authentication.getShortLivedToken().setExpiresOn(currentDate.getTime());
 		eventReciever.users(userId, user);
-		String stateCode = userId+";"+appName+";"+authentication.getShortLivedToken().getValue();
-		return stateCode;
+		String stateCode = userId+SPLITTER+appName+SPLITTER+authentication.getShortLivedToken().getValue();
+		return URLEncoder.encode(stateCode, "UTF-8");
 	}
 
 }

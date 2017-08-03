@@ -1,5 +1,8 @@
 package org.sw.service.impl;
 
+import static org.sw.service.impl.UserServiceImpl.SPLITTER;
+
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -11,6 +14,8 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +36,8 @@ import io.swagger.annotations.Api;
 @Component("landingService")
 public class LandingServiceImpl implements LandingService {
 
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	
 	@Value("${clientid}")
 	String client_id;
 
@@ -51,13 +58,17 @@ public class LandingServiceImpl implements LandingService {
 	@Override
 	public String pair(String state, String code) {
 		try {
-			String[] stateParams = state.split(";");
+			String decodedState = URLDecoder.decode(state, "UTF-8");
+			String[] stateParams = decodedState.split(SPLITTER);
+			LOGGER.debug("Split params:", stateParams);
 			String userId = stateParams[0];
 			String appName = stateParams[1];
 			String authToken = stateParams[2];
+			LOGGER.debug("recovered params:%s, %s, %s", userId, appName, authToken);
 			User user = eventReciever.getUsers(userId);
 			Calendar currentDate = Calendar.getInstance();
 			Iterator<Authentication> authIterator = user.getToken().get(UserServiceImpl.SMARTELLIGENT).iterator();
+			Authentication winkAuth = new Authentication();
 			while (authIterator.hasNext()) {
 				Authentication authentication = authIterator.next();
 				if (authentication.getAppName().equals(appName)
@@ -74,10 +85,8 @@ public class LandingServiceImpl implements LandingService {
 						tokens.put(WINK, new ArrayList<Authentication>());
 					}
 					List<Authentication> authentications = tokens.get(WINK);
-					Authentication winkAuth = new Authentication();
 					authentications.add(winkAuth);
-					tokens.put(WINK, authentications);
-					winkAuth.setAppName(appName);
+					winkAuth.setAppName(WINK);
 					winkAuth.setCreatedTime(Calendar.getInstance().getTime());
 					winkAuth.setShortLivedToken(new Token());
 					winkAuth.getShortLivedToken().setValue(payload.getData().getAccessToken());

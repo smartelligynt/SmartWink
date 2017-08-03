@@ -22,6 +22,10 @@ public interface ListenService {
 	@GET
 	public void startListen(@PathParam("userId") String userId);
 	
+	@Path("/{userId}/{winkId}/start")
+	@GET
+	public void startListen(@PathParam("userId") String userId, @PathParam("winkId") String winkId);
+	
 	@Path("/{userId}/stop")
 	@GET
 	public void stopListen(@PathParam("userId") String userId);

@@ -32,7 +32,7 @@
 			<FileNamePattern>/log/logback/logger-minute.%d{yyyy-MM-dd_HH-mm}.log</FileNamePattern>
 
 			<!-- keep 30 minutes' worth of history -->
-			<maxHistory>30</maxHistory>
+			<maxHistory>180</maxHistory>
 		</rollingPolicy>
 
 		<encoder>
@@ -50,5 +50,11 @@
 	<root>
 		<level value="INFO" />
 		<appender-ref ref="consoleAppender" />
+		<appender-ref ref="dailyRollingFileAppender"/>
 	</root>
+	<logger name = "org.sw" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="consoleAppender" />
+		<appender-ref ref="minuteRollingFileAppender"/>
+	</logger>
 </configuration>

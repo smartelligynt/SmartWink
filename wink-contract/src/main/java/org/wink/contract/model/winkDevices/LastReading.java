@@ -28,6 +28,7 @@ public class LastReading {
 	private double desired_pairing_mode_updated_at;
 	private Double desired_powered_changed_at;
 	private Double desired_powered_updated_at;
+	private Boolean desired_powered;
 	private String firmware_date_code;
 	private Double firmware_date_code_updated_at;
 	private String firmware_version;
@@ -195,6 +196,12 @@ public class LastReading {
 	}
 	public void setDesired_powered_updated_at(Double desired_powered_updated_at) {
 		this.desired_powered_updated_at = desired_powered_updated_at;
+	}
+	public Boolean getDesired_powered() {
+		return desired_powered;
+	}
+	public void setDesired_powered(Boolean desired_powered) {
+		this.desired_powered = desired_powered;
 	}
 	public String getFirmware_date_code() {
 		return firmware_date_code;
